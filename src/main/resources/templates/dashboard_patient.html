@@ -4,29 +4,26 @@
     <meta charset="UTF-8">
     <title>Dashboard Patient</title>
     <th:block th:include="fragments/head.html :: head"> </th:block>
-    <link rel="stylesheet" href="/static/style.css">
-    <link rel="stylesheet" href="/static/dashboard_patient.css">
+    <link rel="stylesheet" th:href="@{/dashboard_patient.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
 </head>
-<body>
+<body class="body-dashboard">
 <header>
     <h1>LibreDoctor</h1>
     <a><i class="fas fa-user"></i></a>
 </header>
 <div class="drug_cards">
-    <div class="ui card">
+    <div class="ui card drug" >
     <div class="card">
-        <div class="content">
-            <div class="reminder"><i class="fas fa-clock"></i> 9:00</div>
-            <div class="header">Dafalgan </div>
+        <div class="content content">
+            <div class="reminder"><p><i class="fas fa-clock"></i> 9:00</p></div>
+            <div class="header drug-header">Dafalgan </div>
+            <div class="ui divider"></div>
             <div class="description">Commentaires</div>
-        </div>
-        <div class="extra content">
-            <div class="ui two buttons">
-                    <button class="ui button">Pris à l'heure</button>
-                    <button class="ui button">Pris en retard</button>
+            <div class="ui two buttons buttons">
+                <button class="ui basic blue button">Pris à l'heure</button>
+                <button class="ui basic blue button">Pris en retard</button>
             </div>
-        </div>
         </div>
 </div>
 </body>

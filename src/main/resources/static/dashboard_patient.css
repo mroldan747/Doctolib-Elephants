@@ -1,3 +1,54 @@
-*{
-    background: #0596DE;
+@import url('style.css');
+
+.body-dashboard{
+    background-color: #0596DE;
+
+}
+
+h1{
+    display: flex;
+    justify-content: center;
+    color: #EEF2F6;
+    font-family: Montserrat;
+    font-size: 24px;
+}
+
+.drug_cards{
+    display: flex;
+    justify-content: center;
+}
+
+.reminder{
+    color: white;
+    border-radius: .3rem .3rem 0 0;
+    background-color: #435f71;
+    width: auto;
+    height: 2rem;
+}
+.reminder p{
+    padding-top: .4rem;
+    margin-left: 1rem;
+}
+.drug{
+    width: 350px;
+    height: 190px;
+}
+
+.drug-header{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 28px;
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+.description{
+    height: 4rem;
+    margin-left: 1rem;
+}
+
+.buttons{
+    border-radius: 0 0 .3rem .3rem;
 }
