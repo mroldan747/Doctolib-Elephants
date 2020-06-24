@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Medicament</title>
+    <th:block th:include="fragments/head.html :: head"> </th:block>
+    <link th:href="@{/medicament.css}" href="medicament.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<header class="medicament-header">
+    <a href="#"><i class="fas fa-chevron-left"></i></a>
+    <h2>Dafalgan</h2>
+</header>
+<main class="medicament-main">
+    <div class="start-hour">
+        <p>Renseigner l’heure de la première prise du médicament</p>
+        <form>
+            <input type="text" placeholder="HH">
+            <button>Valider</button>
+        </form>
+    </div>
+    <div class="suivi">
+        <h3>Suivi de Prises</h3>
+        <div class="labels">
+            <div>
+                <div class="circle circle-green"></div>
+                <p>Pris à l’heure</p>
+            </div>
+            <div>
+                <div class="circle circle-orange"></div>
+                <p>Pris en retard</p>
+            </div>
+            <div>
+                <div class="circle circle-red"></div>
+                <p>Oublié</p>
+            </div>
+        </div>
+        <h4>Jour en cours</h4>
+        <div class="tags-suivi">
+            <div class="tag">
+                <p>06:00</p>
+                <div class="circle  circle-green"></div>
+            </div>
+            <div class="tag">
+                <p>09:00</p>
+                <div class="circle circle-green"></div>
+            </div>
+            <div class="tag">
+                <p>13:00</p>
+                <div class="circle circle-orange"></div>
+            </div>
+            <div class="tag">
+                <p>17:00</p>
+                <div class="circle circle-orange"></div>
+            </div>
+            <div class="tag">
+                <p>20:00</p>
+                <div class="circle circle-red"></div>
+            </div>
+        </div>
+        <p class="text-little">*clicker pour modifier le statut</p>
+    </div>
+</main>
+<script type="text/javascript" src="medicament.js"></script>
+</body>
+</html>
