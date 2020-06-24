@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ordonnance</title>
+    <th:block th:include="fragments/head.html :: head"></th:block>
+    <link rel="stylesheet" th:href="@{/ordonnance.css}">
+</head>
+<body>
+<header>
+    <h1>LibreDoctor</h1>
+</header>
+</body>
+<div class="formOrdonnanceBlock">
+    <div class="formOrdonnance">
+        <h2>Name</h2>
+        <form method="post" action="/ordonnance">
+            <div class="part1Form">
+                <input class="input1" type="text" name="medicament" id="medicament" placeholder="Médicament">
+                <input class="input2" type="number" name="takenDay" id="takenDy" placeholder="Prise par jour">
+                <input class="input3" type="number" name="days" id="days" placeholder="Nombre de jours">
+                <input class="input4" type="number" name="inter" id="inter" placeholder="Interval en heure">
+                <textarea name="comment" id="comment" placeholder="Commentaire"></textarea>
+            </div>
+            <div class="ajout">
+                <input type="submit" value="Ajouter un médicament">
+            </div>
+            <div class="part2Button">
+                <input type="submit" value="CREATION">
+            </div>
+        </form>
+    </div>
+</div>
+</html>
