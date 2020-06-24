@@ -7,6 +7,7 @@ public class Prescription {
     private String takenDay;
     private String day;
     private String comment;
+    private Integer startHours;
 
     public Prescription() {
     }
@@ -49,5 +50,13 @@ public class Prescription {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public Integer getStartHours() {
+        return startHours;
+    }
+
+    public void setStartHours(Integer startHours) {
+        this.startHours = startHours;
     }
 }
