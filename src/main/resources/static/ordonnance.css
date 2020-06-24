@@ -1,0 +1,83 @@
+@import url('style.css');
+
+header {
+    background-color: #0596DE;
+    display: flex;
+    align-items: center;
+    height: 8vh;
+}
+h1 {
+    color: white;
+    margin-left: 1rem;
+}
+body {
+    background-color: #EEF2F6;
+    font-family: "Roboto", arial, sans-serif;
+}
+.formOrdonnanceBlock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 6rem;
+}
+.formOrdonnance {
+    background-color: white;
+    width: 90%;
+    border-radius: 20px;
+}
+.formOrdonnance h2 {
+    padding: 3rem;
+    font-family: "Montserrat", arial, sans-serif;
+}
+
+.part1Form {
+    display: flex;
+    justify-content: space-around;
+}
+.input1 {
+    width: 15%;
+}
+.input2, .input3, .input4 {
+    width: 10%;
+}
+textarea {
+    width: 40%;
+}
+.part2Button {
+    display: flex;
+    justify-content: flex-end;
+}
+.part2Button input {
+    margin-top: 10rem;
+    margin-right: 3rem;
+    margin-bottom: 2rem;
+    width: 12rem;
+    height: 2.5rem;
+    background-color: #0596DE;
+    color: white;
+    border-radius: 10px;
+    font-size: 1rem;
+    border: 2px solid #0596DE;
+}
+.part1Form input, textarea {
+    border-radius: 5px;
+    height: 2.4rem;
+    border: 2px solid #EEF2F6;
+}
+.part1Form input:hover {
+    border-color: #0596DE;
+}
+textarea:hover {
+    border-color: #0596DE;
+}
+.ajout input {
+    margin-top: 2rem;
+    margin-left: 1rem;
+    width: 14rem;
+    height: 2.5rem;
+    background-color: #0596DE;
+    color: white;
+    border-radius: 10px;
+    font-size: 1rem;
+    border-color: transparent;
+}
