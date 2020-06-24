@@ -4,9 +4,10 @@ public class Prescription {
 
     private Long id;
     private String drug;
-    private String takenDay;
-    private String day;
+    private Integer takenDay;
+    private Integer days;
     private String comment;
+    private Integer startHours;
 
     public Prescription() {
     }
@@ -27,20 +28,20 @@ public class Prescription {
         this.drug = drug;
     }
 
-    public String getTakenDay() {
+    public Integer getTakenDay() {
         return takenDay;
     }
 
-    public void setTakenDay(String takenDay) {
+    public void setTakenDay(Integer takenDay) {
         this.takenDay = takenDay;
     }
 
-    public String getDay() {
-        return day;
+    public Integer getDays() {
+        return days;
     }
 
-    public void setDay(String day) {
-        this.day = day;
+    public void setDays(Integer days) {
+        this.days = days;
     }
 
     public String getComment() {
@@ -49,5 +50,13 @@ public class Prescription {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public Integer getStartHours() {
+        return startHours;
+    }
+
+    public void setStartHours(Integer startHours) {
+        this.startHours = startHours;
     }
 }
