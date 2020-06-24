@@ -1,13 +1,49 @@
 package com.Elephants.doctolibElephants.entity;
 
+import com.sun.istack.NotNull;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "prescription")
 public class Prescription {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
+    @Column(nullable = false)
     private String drug;
+
+    @NotNull
+    @Column(nullable = false)
     private Integer takenDay;
+
+    @NotNull
+    @Column(nullable = false)
     private Integer days;
+
+    @Column(columnDefinition = "TEXT")
     private String comment;
+
+    @NotNull
+    @Column(nullable = false)
     private Integer startHours;
+
+    @NotNull
+    @Column(nullable = false)
+    private Integer inter;
+
+    @ManyToOne
+    @JoinColumn
+    private Ordonnance ordonnance;
+
+    @OneToMany(mappedBy = "prescription")
+    private List<FollowUp> followUps = new ArrayList<>();
 
     public Prescription() {
     }
@@ -58,5 +94,29 @@ public class Prescription {
 
     public void setStartHours(Integer startHours) {
         this.startHours = startHours;
+    }
+
+    public Integer getInterval() {
+        return inter;
+    }
+
+    public void setInterval(Integer interval) {
+        this.inter = interval;
+    }
+
+    public Ordonnance getOrdonnance() {
+        return ordonnance;
+    }
+
+    public void setOrdonnance(Ordonnance ordonnance) {
+        this.ordonnance = ordonnance;
+    }
+
+    public List<FollowUp> getFollowUps() {
+        return followUps;
+    }
+
+    public void setFollowUps(List<FollowUp> followUps) {
+        this.followUps = followUps;
     }
 }
