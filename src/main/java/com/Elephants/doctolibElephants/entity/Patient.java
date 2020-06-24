@@ -26,7 +26,15 @@ public class Patient {
     @NotNull
     @Column(nullable = false)
     @Type(type = "text")
-    private String location;
+    private String address;
+
+    @NotNull
+    @Column(nullable = false)
+    private String city;
+
+    @NotNull
+    @Column(nullable = false)
+    private Integer zipCode;
 
     @NotNull
     @Column(nullable = false)
@@ -74,12 +82,12 @@ public class Patient {
         this.firstName = firstName;
     }
 
-    public String getLocation() {
-        return location;
+    public String getAddress() {
+        return address;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getPhone() {
@@ -120,5 +128,21 @@ public class Patient {
 
     public void setOrdonnances(List<Ordonnance> ordonnances) {
         this.ordonnances = ordonnances;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Integer getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(Integer zipCode) {
+        this.zipCode = zipCode;
     }
 }

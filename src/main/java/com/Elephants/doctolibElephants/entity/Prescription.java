@@ -30,8 +30,7 @@ public class Prescription {
     @Column(columnDefinition = "TEXT")
     private String comment;
 
-    @NotNull
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Integer startHours;
 
     @NotNull
