@@ -1,0 +1,23 @@
+
+/* VARIABLES */
+:root {
+
+    /*color*/
+    --color-main-blue: #0596DE;
+    --color-light-blue: #CCECFA;
+    --color-dark-blue: #435f71;
+    --color-light-gray: #EEF2F6;
+
+
+    /*Fonts*/
+    --font-titles: "Montserrat", arial, sans-serif;
+    --font-text: "Roboto", arial, sans-serif;
+
+}
+
+/* GENERAL */
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
