@@ -66,16 +66,54 @@
     margin: 2rem;
 }
 
-p{
-    padding-left: 1rem;
-}
-
 .phone{
     display: flex;
     justify-content: space-between;
     margin-right: 1rem;
 }
 
-#button-ordonnance{
-    border-radius: blue;
+.ui.table thead th{
+    background-color: #fff;
+}
+
+.ui.basic.button, .ui.basic.buttons .button{
+    color: #0596DE !important;
+    background-color: white !important;
+    border-color: transparent !important;
+    box-shadow: none;
+}
+
+.ui.basic.button:hover{
+    box-shadow: none;
+    color: #0596DE !important;
+}
+
+#button-ordonnance:hover{
+    color: #0596DE !important;
+}
+
+.ui.primary.button{
+    background-color: #0596DE;
+}
+
+.ui.primary.button:hover{
+    background-color: #0596DE !important;
+}
+
+.ui.card{
+    box-shadow: none;
+    border: 1px solid #0596DE !important;
+}
+
+.ui.table{
+    border: none;
+    border-radius: 1.25rem 1.25rem;
+}
+
+.ui.table thead tr:first-child > th:only-child{
+    border-radius: 1.25rem 1.25rem 0 0;
+}
+
+p{
+    margin: 0;
 }

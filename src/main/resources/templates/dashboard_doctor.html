@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>Dashboard Doctor</title>
     <th:block th:include="fragments/head.html :: head"> </th:block>
-    <link rel="stylesheet" th:href="@{/dashboard_doctor.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+    <link rel="stylesheet" th:href="@{/dashboard_doctor.css}">
 </head>
 <body class="body-dashboard-doctor">
 <header class="header">
@@ -18,16 +18,16 @@
 <div class="section1">
 <div class="grid-container">
     <div class="followup">
-        <button class="ui primary button">Ordonnance avec suivis</button>
+        <a class="ui primary button">Ordonnance avec suivis</a>
     </div>
     <div class="ordonnance">
-        <button class="ui blue basic button" id="button-ordonnance">Ordonnance</button>
+        <a class="ui basic button" id="button-ordonnance">Ordonnance</a>
     </div>
     <div class="information-cards">
         <div class="drug_cards">
         <div class="ui card name" >
             <div class="card">
-                <div class="content content">
+                <div class="content">
                     <div class="reminder"><p>Dupond Dupont</p></div>
                     <p class="description">
                             <div class="phone">
@@ -35,7 +35,8 @@
                                 <p>15/07/1991</p>
                             </div>
                             <p>N°SS: 0909909999</p>
-                            <p>9 rue des développeurs, 44000 Nantes</p>
+                            <p class="address">9 rue des développeurs</p>
+                            <p class="city"><span>44000</span> <span>Nantes</span></p>
                     </div>
                 </div>
             </div>
