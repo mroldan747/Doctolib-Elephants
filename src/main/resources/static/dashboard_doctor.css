@@ -1,0 +1,119 @@
+@import url('style.css');
+
+.body-dashboard-doctor{
+    background-color: #EEF2F6;
+}
+
+.header .grid-container{
+    display: grid;
+    grid-template-columns: 1.4fr 0.6fr;
+    grid-template-rows: 1fr;
+    gap: 1px 1px;
+    grid-template-areas: "doctorlibre patientlist";
+    background: #0596DE;
+    margin: 0;
+    height: 4rem;
+}
+
+.doctorlibre { grid-area: doctorlibre;
+    text-align: left;
+    margin-left: 3rem;
+    padding-top: .8rem;
+    font-size: 24px;
+    color: white;
+}
+
+.patientlist { grid-area: patientlist;
+    text-align: right;
+    margin-right: 5rem;
+    padding-top: 1rem;
+    font-size: 20px;
+    color: white;
+}
+.reminder{
+    color: white;
+    border-radius: .3rem .3rem 0 0;
+    background-color: #435f71;
+    width: auto;
+    height: 2rem;
+}
+.reminder p{
+    padding-top: .4rem;
+    font-size: 16px;
+}
+.section1 .grid-container{
+    display: grid;
+    grid-template-columns: 1.7fr 0.7fr 0.6fr;
+    grid-template-rows: 1fr;
+    gap: 1px 1px;
+    grid-template-areas: "information-cards ordonnance followup";
+}
+.followup { grid-area: followup;
+    margin: 2rem;
+    margin-right: 5rem;
+    padding-top: 2rem;}
+
+.ordonnance { grid-area: ordonnance;
+    margin: 2rem;
+    padding-left: 15rem;
+    padding-top: 2rem;}
+
+.information-cards { grid-area: information-cards;
+    margin: 2rem;}
+
+#table{
+    width: 96%;
+    margin: 2rem;
+}
+
+.phone{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 1rem;
+}
+
+.ui.table thead th{
+    background-color: #fff;
+}
+
+.ui.basic.button, .ui.basic.buttons .button{
+    color: #0596DE !important;
+    background-color: white !important;
+    border-color: transparent !important;
+    box-shadow: none;
+}
+
+.ui.basic.button:hover{
+    box-shadow: none;
+    color: #0596DE !important;
+}
+
+#button-ordonnance:hover{
+    color: #0596DE !important;
+}
+
+.ui.primary.button{
+    background-color: #0596DE;
+}
+
+.ui.primary.button:hover{
+    background-color: #0596DE !important;
+}
+
+.ui.card{
+    box-shadow: none;
+    border: 1px solid #0596DE !important;
+}
+
+.ui.table{
+    border: none;
+    border-radius: 1.25rem 1.25rem;
+}
+
+.ui.table thead tr:first-child > th:only-child{
+    border-radius: 1.25rem 1.25rem 0 0;
+}
+
+p{
+    margin: 0;
+}
