@@ -84,11 +84,9 @@ public class PatientController {
 
     @PostMapping("/medicament")
     public String startHour(@RequestParam Long med, @RequestParam Long id, @RequestParam Integer hour) {
-        Optional<Ordonnance> optionalOrdonnance = ordonnanceRepository.findByPatientId(id);
-        if (optionalOrdonnance.isPresent()) {
-            Prescription prescription = optionalOrdonnance.get().getPrescriptions().stream()
-                    .filter(item -> item.getId().equals(med))
-                    .collect(Collectors.toList()).get(0);
+        Optional<Prescription> optionalPrescription = prescriptionRepository.findById(med);
+        if (optionalPrescription.isPresent()) {
+            Prescription prescription = optionalPrescription.get();
             prescription.setStartHours(hour);
             Calendar current = Calendar.getInstance();
             prescription.setStartDate(current);
@@ -169,5 +167,11 @@ public class PatientController {
         }
 
         return "redirect:/dashboard/patient" + "?id=" + idPatient;
+    }
+
+    @GetMapping("/patient")
+    public String userMedicament(@RequestParam Long id) {
+        List<Ordonnance> ordonnances = ordonnanceRepository.findByPatientId(id);
+        return "user_medicaments";
     }
 }
