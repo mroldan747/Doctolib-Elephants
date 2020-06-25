@@ -1,8 +1,10 @@
 package com.Elephants.doctolibElephants.Controller;
 
+import com.Elephants.doctolibElephants.entity.FollowUp;
 import com.Elephants.doctolibElephants.entity.Ordonnance;
 import com.Elephants.doctolibElephants.entity.Patient;
 import com.Elephants.doctolibElephants.entity.Prescription;
+import com.Elephants.doctolibElephants.repository.FollowUpRepository;
 import com.Elephants.doctolibElephants.repository.OrdonnanceRepository;
 import com.Elephants.doctolibElephants.repository.PatientRepository;
 import com.Elephants.doctolibElephants.repository.PrescriptionRepository;
@@ -25,6 +27,9 @@ public class DoctorController {
 
     @Autowired
     OrdonnanceRepository ordonnanceRepository;
+
+    @Autowired
+    FollowUpRepository followUpRepository;
 
 
     @GetMapping("/ordonnance")
@@ -76,9 +81,10 @@ public class DoctorController {
         return "hello";
     }
 
-    /*@GetMapping("/dashboard/doctor")
-      public Patient dashboardDoctor(Model out,
-                                    @RequestParam Long patientId) {
+    @GetMapping("/dashboard/doctor")
+    public String dashboardDorctor(Model out,
+                                   @RequestParam Long patientId,
+                                    @RequestParam Long prescriptionId) {
 
         Optional<Patient> optionalPatient = patientRepository.findById(patientId);
         if (optionalPatient.isPresent()) {
@@ -86,8 +92,27 @@ public class DoctorController {
             out.addAttribute("patient", patient);
         }
 
-        return ;
-    }*/
+        FollowUp followUp = new FollowUp();
+        Integer green = followUpRepository.totalStatus1(prescriptionId);
+        out.addAttribute("green", green);
 
+        Integer orange = followUpRepository.totalStatus2(prescriptionId);
+        out.addAttribute("orange", orange);
+
+        Integer red = followUpRepository.totalStatus3(prescriptionId);
+        out.addAttribute("red", red);
+
+        Integer total = followUpRepository.totalFollowUp(prescriptionId);
+        out.addAttribute("total", total);
+
+        Integer totalPris = green + orange + red;
+        out.addAttribute("totalPris", totalPris);
+
+        Integer restePrendre = total - totalPris;
+        out.addAttribute("restePrendre", restePrendre);
+
+        return "dashboard-doctor";
+
+    }
 
 }
