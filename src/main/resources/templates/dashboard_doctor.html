@@ -14,60 +14,45 @@
         <div class="patientlist">Liste de suivi des patients</div>
     </div>
 </header>
-
 <div class="section1">
-<div class="grid-container">
-    <div class="followup">
-        <a class="ui primary button">Ordonnance avec suivis</a>
-    </div>
-    <div class="ordonnance">
-        <a class="ui basic button" id="button-ordonnance">Ordonnance</a>
-    </div>
-    <div class="information-cards">
-        <div class="drug_cards">
-        <div class="ui card name" >
-            <div class="card">
-                <div class="content">
-                    <div class="reminder"><p>Dupond Dupont</p></div>
-                    <p class="description">
-                            <div class="phone">
-                                <p>0760809087</p>
-                                <p>15/07/1991</p>
-                            </div>
-                            <p>N°SS: 0909909999</p>
-                            <p class="address">9 rue des développeurs</p>
-                            <p class="city"><span>44000</span> <span>Nantes</span></p>
+    <div class="grid-container">
+        <div class="followup">
+            <a class="ui primary button">Ordonnance avec suivis</a>
+        </div>
+        <div class="ordonnance">
+            <a class="ui basic button" id="button-ordonnance">Ordonnance</a>
+        </div>
+        <div class="information-cards">
+            <div class="drug_cards">
+                <div class="ui card name" >
+                    <div class="card">
+                        <div class="content">
+                            <div class="reminder" th:text="|${patient.getLastName()} ${patient.getFirstName()}|"><p>Dupond Dupont</p></div>
+                            <p class="description">
+                                <div class="phone">
+                            <p th:text="${patient.getPhone()}">0760809087</p>
+                            <p th:text="${patient.getBirthDate()}">15/07/1991</p>
+                        </div>
+                        <p th:text="|N°SS : ${patient.getSocialSecurity()}|">N°SS: 0909909999</p>
+                        <p th:text="${patient.getAddress()}" class="address">9 rue des développeurs</p>
+                        <p th:text="${patient.getZipCode()}" class="city"><span>44000</span> <span>Nantes</span></p>
                     </div>
                 </div>
             </div>
         </div></div>
 </div>
-</div>
+
 <table class="ui five column table" id="table">
     <thead>
     <tr><th colspan="5">Suivi du traitement :</th>
     </tr></thead>
     <tbody>
-    <tr>
-        <td>Dafalgan</td>
-        <td><i class="circle green icon"></i>5/12</td>
-        <td><i class="circle orange icon"></i>4/12</td>
-        <td><i class="circle red icon"></i>6/12</td>
-        <td>Reste à prendre: 20</td>
-    </tr>
-    <tr>
-        <td>Doliprane</td>
-        <td><i class="circle green icon"></i>5/12</td>
-        <td><i class="circle orange icon"></i>4/12</td>
-        <td><i class="circle red icon"></i>6/12</td>
-        <td>Reste à prendre: 20</td>
-    </tr>
-    <tr>
-        <td>Smecta</td>
-        <td><i class="circle green icon"></i>5/12</td>
-        <td><i class="circle orange icon"></i>4/12</td>
-        <td><i class="circle red icon"></i>6/12</td>
-        <td>Reste à prendre: 12</td>
+    <tr th:each="entry : ${prescriptionStatus}" th:with="prescription=${entry.key}, status=${entry.value}" >
+        <td th:text="${prescription.getDrug()}">Dafalgan</td>
+        <td><i class="circle green icon"></i><span th:text="|${status.getGreen()}/${status.getTotalPris()}|"></span></td>
+        <td><i class="circle orange icon"></i><span th:text="|${status.getOrange()}/${status.getTotalPris()}|"></span></td>
+        <td><i class="circle red icon"></i><span th:text="|${status.getRed()}/${status.getTotalPris()}|"></span></td>
+        <td th:text="|Reste à prendre : ${status.getRestePrendre()}|">Reste à prendre: 20</td>
     </tr>
     </tbody>
 </table>
