@@ -4,6 +4,7 @@ import com.Elephants.doctolibElephants.entity.FollowUp;
 import com.Elephants.doctolibElephants.entity.Ordonnance;
 import com.Elephants.doctolibElephants.entity.Patient;
 import com.Elephants.doctolibElephants.entity.Prescription;
+import com.Elephants.doctolibElephants.model.FollowUpStatus;
 import com.Elephants.doctolibElephants.repository.FollowUpRepository;
 import com.Elephants.doctolibElephants.repository.OrdonnanceRepository;
 import com.Elephants.doctolibElephants.repository.PatientRepository;
@@ -13,8 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class DoctorController {
@@ -84,7 +84,7 @@ public class DoctorController {
     @GetMapping("/dashboard/doctor")
     public String dashboardDorctor(Model out,
                                    @RequestParam Long patientId,
-                                    @RequestParam Long prescriptionId) {
+                                    @RequestParam Long ordonnanceId) {
 
         Optional<Patient> optionalPatient = patientRepository.findById(patientId);
         if (optionalPatient.isPresent()) {
@@ -92,26 +92,21 @@ public class DoctorController {
             out.addAttribute("patient", patient);
         }
 
-        FollowUp followUp = new FollowUp();
-        Integer green = followUpRepository.totalStatus1(prescriptionId);
-        out.addAttribute("green", green);
+        List<Prescription> prescriptions = prescriptionRepository.findAllByOrdonnanceId(ordonnanceId);
+        Map<Prescription, FollowUpStatus> prescriptionStatus = new LinkedHashMap<>();
+        for (Prescription prescription : prescriptions) {
+            FollowUpStatus followUpStatus = new FollowUpStatus();
+            followUpStatus.setGreen(followUpRepository.totalStatus1(prescription.getId()));
+            followUpStatus.setOrange(followUpRepository.totalStatus2(prescription.getId()));
+            followUpStatus.setRed(followUpRepository.totalStatus3(prescription.getId()));
+            followUpStatus.setTotal(followUpRepository.totalFollowUp(prescription.getId()));
+            followUpStatus.setTotalPris(followUpStatus.getGreen()+followUpStatus.getOrange()+followUpStatus.getRed());
+            followUpStatus.setRestePrendre((prescription.getDays()*prescription.getTakenDay())-followUpStatus.getTotalPris());
+            prescriptionStatus.put(prescription, followUpStatus);
+        }
+        out.addAttribute("prescriptionStatus", prescriptionStatus);
 
-        Integer orange = followUpRepository.totalStatus2(prescriptionId);
-        out.addAttribute("orange", orange);
-
-        Integer red = followUpRepository.totalStatus3(prescriptionId);
-        out.addAttribute("red", red);
-
-        Integer total = followUpRepository.totalFollowUp(prescriptionId);
-        out.addAttribute("total", total);
-
-        Integer totalPris = green + orange + red;
-        out.addAttribute("totalPris", totalPris);
-
-        Integer restePrendre = total - totalPris;
-        out.addAttribute("restePrendre", restePrendre);
-
-        return "dashboard-doctor";
+        return "dashboard_doctor";
 
     }
 
