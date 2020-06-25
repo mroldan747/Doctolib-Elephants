@@ -3,7 +3,9 @@ package com.Elephants.doctolibElephants.Controller;
 import com.Elephants.doctolibElephants.entity.FollowUp;
 import com.Elephants.doctolibElephants.entity.Ordonnance;
 import com.Elephants.doctolibElephants.entity.Prescription;
+import com.Elephants.doctolibElephants.repository.FollowUpRepository;
 import com.Elephants.doctolibElephants.repository.OrderRepository;
+import com.Elephants.doctolibElephants.repository.PrescriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +25,10 @@ public class PatientController {
 
     @Autowired
     OrderRepository orderRepository;
-
+    @Autowired
+    PrescriptionRepository prescriptionRepository;
+    @Autowired
+    FollowUpRepository followUpRepository;
 
     @GetMapping("/dashboard/patient")
     public String dashboardPatient() {
@@ -72,6 +77,26 @@ public class PatientController {
                     .filter(item -> item.getId().equals(med))
                     .collect(Collectors.toList()).get(0);
             prescription.setStartHours(hour);
+            prescriptionRepository.save(prescription);
+
+            // Define next follow ups
+            Integer inter = prescription.getInterval();
+            Integer days = prescription.getDays();
+            Integer takenPerDay = prescription.getTakenDay();
+            for (int i = 1; i <= days; i++) {
+                int take = 0;
+                Integer hourUpdated = hour;
+                while (take <= takenPerDay && hourUpdated < 22) {
+                    int status = 3;
+                    if (i == 1 && hourUpdated.equals(hour)) {
+                        status = 1;
+                    }
+                    FollowUp followUp = new FollowUp(hourUpdated, status, i, prescription);
+                    followUpRepository.save(followUp);
+                    hourUpdated += inter;
+                    take++;
+                }
+            }
         }
 
         return "redirect:/medicament?med=" + med + "&" + "id=" + id;

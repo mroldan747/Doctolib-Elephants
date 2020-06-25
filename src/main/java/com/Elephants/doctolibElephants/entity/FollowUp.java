@@ -31,6 +31,13 @@ public class FollowUp {
     public FollowUp() {
     }
 
+    public FollowUp(Integer hour, Integer status, Integer day, Prescription prescription) {
+        this.hour = hour;
+        this.status = status;
+        this.day = day;
+        this.prescription = prescription;
+    }
+
     public Long getId() {
         return id;
     }

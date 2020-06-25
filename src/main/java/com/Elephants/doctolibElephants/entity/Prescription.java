@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,8 +31,9 @@ public class Prescription {
     @Column(columnDefinition = "TEXT")
     private String comment;
 
-    @Column(nullable = true)
     private Integer startHours;
+
+    private Date
 
     @NotNull
     @Column(nullable = false)
