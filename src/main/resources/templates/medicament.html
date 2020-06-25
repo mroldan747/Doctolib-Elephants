@@ -12,10 +12,12 @@
     <h2>Dafalgan</h2>
 </header>
 <main class="medicament-main">
-    <div class="start-hour">
+    <div class="start-hour" th:if="${not isStart}">
         <p>Renseigner l’heure de la première prise du médicament</p>
-        <form>
-            <input type="text" placeholder="HH">
+        <form method="post" action="/medicament">
+            <input type="hidden" name="med" th:value="${med}">
+            <input type="hidden" name="id" th:value="${id}">
+            <input type="text" name="hour" placeholder="HH">
             <button>Valider</button>
         </form>
     </div>
@@ -36,26 +38,10 @@
             </div>
         </div>
         <h4>Jour en cours</h4>
-        <div class="tags-suivi">
-            <div class="tag">
-                <p>06:00</p>
-                <div class="circle  circle-green"></div>
-            </div>
-            <div class="tag">
-                <p>09:00</p>
-                <div class="circle circle-green"></div>
-            </div>
-            <div class="tag">
-                <p>13:00</p>
-                <div class="circle circle-orange"></div>
-            </div>
-            <div class="tag">
-                <p>17:00</p>
-                <div class="circle circle-orange"></div>
-            </div>
-            <div class="tag">
-                <p>20:00</p>
-                <div class="circle circle-red"></div>
+        <div class="tags-suivi" th:if="${isStart}">
+            <div class="tag" th:each="entry : ${followUps}" th:with="followup = ${entry.key} , status = ${entry.value}">
+                <p th:text="|${followup.hour}:00|">06:00</p>
+                <div th:class="|circle  circle-${status}|"></div>
             </div>
         </div>
         <p class="text-little">*clicker pour modifier le statut</p>
