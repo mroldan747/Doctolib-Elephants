@@ -1,17 +1,13 @@
 package com.Elephants.doctolibElephants.Controller;
 
 
-import com.Elephants.doctolibElephants.repository.OrdonnanceRepository;
-import com.Elephants.doctolibElephants.repository.PatientRepository;
-
 import com.Elephants.doctolibElephants.entity.FollowUp;
 import com.Elephants.doctolibElephants.entity.Ordonnance;
 import com.Elephants.doctolibElephants.entity.Prescription;
-
 import com.Elephants.doctolibElephants.repository.FollowUpRepository;
-
+import com.Elephants.doctolibElephants.repository.OrdonnanceRepository;
+import com.Elephants.doctolibElephants.repository.PatientRepository;
 import com.Elephants.doctolibElephants.repository.PrescriptionRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -55,15 +48,29 @@ public class PatientController {
                 model.addAttribute("isStart", false);
             } else {
                 model.addAttribute("isStart", true);
-                List<FollowUp> followUps = prescription.getFollowUps();
+                Calendar now = Calendar.getInstance();
+                int day = now.get(Calendar.DAY_OF_YEAR);
+                Calendar startDate = prescription.getStartDate();
+                int startDay = startDate.get(Calendar.DAY_OF_YEAR);
+                List<FollowUp> followUps = prescription.getFollowUps().stream()
+                        .filter(item -> {
+
+                            if (startDay - day == 0) {
+                                return item.getDay().equals(1);
+                            }
+                            return item.getDay().equals(day - startDay);
+                        })
+                        .collect(Collectors.toList());
                 Map<FollowUp, String> followUpsMap = new LinkedHashMap<>();
                 for (FollowUp followUp : followUps) {
                     if (followUp.getStatus() == 3) {
                         followUpsMap.put(followUp, "red");
                     } else if (followUp.getStatus() == 2) {
                         followUpsMap.put(followUp, "orange");
-                    } else {
+                    } else if (followUp.getStatus() == 1) {
                         followUpsMap.put(followUp, "green");
+                    } else {
+                        followUpsMap.put(followUp, "");
                     }
                 }
                 model.addAttribute("followUps", followUpsMap);
@@ -85,6 +92,9 @@ public class PatientController {
                     .filter(item -> item.getId().equals(med))
                     .collect(Collectors.toList()).get(0);
             prescription.setStartHours(hour);
+            Calendar current = Calendar.getInstance();
+            prescription.setStartDate(current);
+
             prescriptionRepository.save(prescription);
 
             // Define next follow ups
@@ -95,7 +105,7 @@ public class PatientController {
                 int take = 0;
                 Integer hourUpdated = hour;
                 while (take <= takenPerDay && hourUpdated < 22) {
-                    int status = 3;
+                    int status = 0;
                     if (i == 1 && hourUpdated.equals(hour)) {
                         status = 1;
                     }
@@ -111,7 +121,7 @@ public class PatientController {
     }
 
     @GetMapping("/dashboard/patient")
-    public String showDrugList(Model out, @RequestParam Long id){
+    public String showDrugList(Model out, @RequestParam Long id) {
         out.addAttribute("prescriptions", prescriptionRepository.findByPatientId(id));
         return "dashboard_patient";
     }

@@ -2,9 +2,10 @@ package com.Elephants.doctolibElephants.entity;
 
 import com.sun.istack.NotNull;
 import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,9 @@ public class Prescription {
 
     private Integer startHours;
 
-
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Calendar startDate;
 
     @NotNull
     @Column(nullable = false)
@@ -110,7 +113,7 @@ public class Prescription {
         return inter;
     }
 
-    public void setInterval(Integer inter) {
+    public void setInter(Integer inter) {
         this.inter = inter;
     }
 
@@ -128,5 +131,13 @@ public class Prescription {
 
     public void setFollowUps(List<FollowUp> followUps) {
         this.followUps = followUps;
+    }
+
+    public Calendar getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Calendar startDate) {
+        this.startDate = startDate;
     }
 }

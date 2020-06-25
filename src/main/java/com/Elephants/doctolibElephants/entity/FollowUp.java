@@ -17,7 +17,7 @@ public class FollowUp {
     private Integer hour;
 
     @NotNull
-    @Column(nullable = false, columnDefinition = "int default 3")
+    @Column(nullable = false, columnDefinition = "int default 0")
     private Integer status;
 
     @NotNull
@@ -68,5 +68,13 @@ public class FollowUp {
 
     public void setPrescription(Prescription prescription) {
         this.prescription = prescription;
+    }
+
+    public Integer getDay() {
+        return day;
+    }
+
+    public void setDay(Integer day) {
+        this.day = day;
     }
 }
