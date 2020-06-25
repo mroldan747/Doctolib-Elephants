@@ -24,6 +24,7 @@ body {
     background-color: white;
     width: 90%;
     border-radius: 20px;
+    margin-bottom: 6rem;
 }
 .formOrdonnance h2 {
     padding: 3rem;
@@ -78,7 +79,7 @@ textarea {
     justify-content: flex-end;
 }
 .part2Button input {
-    margin-top: 10rem;
+    margin-top: 6rem;
     margin-right: 3rem;
     margin-bottom: 2rem;
     width: 12rem;
