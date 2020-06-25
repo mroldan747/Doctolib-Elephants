@@ -11,8 +11,8 @@ import java.util.List;
 
 @Repository
 public interface PrescriptionRepository extends JpaRepository<Prescription, Long> {
-    @Query(nativeQuery = true, value= "SELECT DISTINCT FROM prescription"+
-            "JOIN ordonnance ON prescription.ordonnance_id = ordonnance.id"+
-            "WHERE patient_id = :id")
+    @Query(nativeQuery = true, value= "SELECT DISTINCT * FROM prescription"+
+            " JOIN ordonnance ON prescription.ordonnance_id = ordonnance.id"+
+            " WHERE patient_id = :id")
     List<Prescription> findByPatientId(@Param("id") Long id);
 }

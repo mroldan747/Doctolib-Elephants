@@ -17,9 +17,9 @@
     <div class="card">
         <div class="content content">
             <div class="reminder"><p><i class="fas fa-clock"></i> 9:00</p></div>
-            <div class="header drug-header" id="drug-header">Dafalgan </div>
+            <div class="header drug-header" id="drug-header" th:text="${prescription.drug}">Dafalgan </div>
             <div class="ui divider"></div>
-            <div class="description">Commentaires</div>
+            <div class="description" th:text="${prescription.comment}">Commentaires</div>
             <div class="ui two buttons buttons">
                 <button class="ui bottom attached button" id="button">PRIS A L'HEURE</button>
                 <button class="ui bottom attached button" id="button2">PRIS EN RETARD</button>
@@ -27,20 +27,5 @@
         </div>
     </div>
     </div>
-    <div class="ui card drug" >
-        <div class="card">
-            <div class="content content">
-                <div class="reminder"><p><i class="fas fa-clock"></i> 9:00</p></div>
-                <div class="header drug-header" id="drug-header">Dafalgan </div>
-                <div class="ui divider"></div>
-                <div class="description">Commentaires</div>
-                <div class="ui two buttons buttons">
-                    <button class="ui bottom attached button" id="button">PRIS A L'HEURE</button>
-                    <button class="ui bottom attached button" id="button2">PRIS EN RETARD</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 </body>
 </html>
