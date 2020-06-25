@@ -14,21 +14,49 @@
 <div class="formOrdonnanceBlock">
     <div class="formOrdonnance">
         <h2>Name</h2>
-        <form method="post" action="/ordonnance">
+        <div class="prescription" th:each="prescription : ${prescriptions}">
+            <div class="drug">
+                <p th:text="${prescription.drug}"></p>
+            </div>
+            <div class="takenDay">
+                <p th:text="${prescription.takenDay}"></p>
+            </div>
+            <div class="days">
+                <p th:text="${prescription.days}"></p>
+            </div>
+            <div class="inter">
+                <p th:text="${prescription.inter}"></p>
+            </div>
+            <div class="comment">
+                <p th:text="${prescription.comment}"></p>
+            </div>
+        </div>
+        <form method="post" action="/ordonnance" name="ordonnance-form">
             <div class="part1Form">
-                <input class="input1" type="text" name="medicament" id="medicament" placeholder="Médicament">
+                <input type="hidden" name="ordonnanceId" th:value="${ordonnance.getId()}">
+                <input class="input1" type="text" name="drug" id="drug" placeholder="Médicament">
                 <input class="input2" type="number" name="takenDay" id="takenDy" placeholder="Prise par jour">
                 <input class="input3" type="number" name="days" id="days" placeholder="Nombre de jours">
                 <input class="input4" type="number" name="inter" id="inter" placeholder="Interval en heure">
+                <input type="hidden" name="creation" value="0" id="input-creation">
                 <textarea name="comment" id="comment" placeholder="Commentaire"></textarea>
             </div>
             <div class="ajout">
                 <input type="submit" value="Ajouter un médicament">
             </div>
             <div class="part2Button">
-                <input type="submit" value="CREATION">
+                <input type="submit" value="CREATION" id="creation">
             </div>
         </form>
     </div>
 </div>
+<script type="text/javascript">
+    const creationButton = document.getElementById("creation");
+    creationButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        const creationInput = document.getElementById("input-creation");
+        creationInput.setAttribute("value", 1);
+        document.forms["ordonnance-form"].submit();
+    })
+</script>
 </html>

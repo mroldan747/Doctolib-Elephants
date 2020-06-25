@@ -47,6 +47,15 @@ public class Prescription {
     public Prescription() {
     }
 
+    public Prescription(String drug, Integer takenDay, Integer days, Integer inter, String comment, Ordonnance ordonnance) {
+        this.drug = drug;
+        this.takenDay = takenDay;
+        this.days = days;
+        this.inter = inter;
+        this.comment = comment;
+        this.ordonnance = ordonnance;
+    }
+
     public Long getId() {
         return id;
     }
@@ -95,12 +104,12 @@ public class Prescription {
         this.startHours = startHours;
     }
 
-    public Integer getInterval() {
+    public Integer getInter() {
         return inter;
     }
 
-    public void setInterval(Integer interval) {
-        this.inter = interval;
+    public void setInterval(Integer inter) {
+        this.inter = inter;
     }
 
     public Ordonnance getOrdonnance() {
