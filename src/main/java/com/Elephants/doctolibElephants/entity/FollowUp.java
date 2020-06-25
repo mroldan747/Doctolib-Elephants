@@ -20,6 +20,10 @@ public class FollowUp {
     @Column(nullable = false, columnDefinition = "int default 3")
     private Integer status;
 
+    @NotNull
+    @Column(nullable = false)
+    private Integer day;
+
     @ManyToOne
     @JoinColumn
     private Prescription prescription;
