@@ -4,6 +4,7 @@ import com.Elephants.doctolibElephants.entity.FollowUp;
 import com.Elephants.doctolibElephants.entity.Ordonnance;
 import com.Elephants.doctolibElephants.entity.Prescription;
 import com.Elephants.doctolibElephants.repository.OrderRepository;
+import com.Elephants.doctolibElephants.repository.PrescriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,11 +25,8 @@ public class PatientController {
     @Autowired
     OrderRepository orderRepository;
 
-
-    @GetMapping("/dashboard/patient")
-    public String dashboardPatient() {
-        return "dashboard_patient";
-    }
+    @Autowired
+    PrescriptionRepository prescriptionRepository;
 
     @GetMapping("/medicament")
     public String medicament(Model model, @RequestParam Long med, @RequestParam Long id) {
@@ -77,4 +75,9 @@ public class PatientController {
         return "redirect:/medicament?med=" + med + "&" + "id=" + id;
     }
 
+    @GetMapping("/dashboard/patient")
+    public String showDrugList(Model out, @RequestParam Long id){
+        out.addAttribute("prescriptions", prescriptionRepository.findByPatientId(id));
+        return "dashboard_patient";
+    }
 }

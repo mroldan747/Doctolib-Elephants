@@ -12,7 +12,7 @@
     <h1>LibreDoctor</h1>
     <a id="connect"><i class="fas fa-user"></i></a>
 </header>
-<div class="drug_cards">
+<div class="drug_cards" th:each="prescription : ${prescriptions}">
     <div class="ui card drug" >
     <div class="card">
         <div class="content content">
