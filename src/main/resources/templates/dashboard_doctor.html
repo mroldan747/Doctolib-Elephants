@@ -17,10 +17,10 @@
 <div class="section1">
     <div class="grid-container">
         <div class="followup">
-            <a class="ui primary button">Ordonnance avec suivis</a>
+            <a th:href="@{'/creationOrdonnance?doctorId=' + ${doctorId} + '&patientId=' + ${patient.id}}" class="ui primary button">Ordonnance avec suivis</a>
         </div>
         <div class="ordonnance">
-            <a class="ui basic button" id="button-ordonnance">Ordonnance</a>
+            <a th:href="@{'/creationOrdonnance?doctorId=' + ${doctorId} + '&patientId=' + ${patient.id}}" class="ui basic button" id="button-ordonnance">Ordonnance</a>
         </div>
         <div class="information-cards">
             <div class="drug_cards">

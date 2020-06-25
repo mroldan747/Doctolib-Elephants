@@ -1,17 +1,14 @@
 package com.Elephants.doctolibElephants.Controller;
-import com.Elephants.doctolibElephants.entity.FollowUp;
-import com.Elephants.doctolibElephants.entity.Ordonnance;
-import com.Elephants.doctolibElephants.entity.Patient;
-import com.Elephants.doctolibElephants.entity.Prescription;
+import com.Elephants.doctolibElephants.entity.*;
 import com.Elephants.doctolibElephants.model.FollowUpStatus;
-import com.Elephants.doctolibElephants.repository.FollowUpRepository;
-import com.Elephants.doctolibElephants.repository.OrdonnanceRepository;
-import com.Elephants.doctolibElephants.repository.PatientRepository;
-import com.Elephants.doctolibElephants.repository.PrescriptionRepository;
+import com.Elephants.doctolibElephants.repository.*;
+import org.graalvm.compiler.core.common.type.ArithmeticOpTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.SimpleDateFormat;
 import java.util.*;
 @Controller
 public class DoctorController {
@@ -23,6 +20,9 @@ public class DoctorController {
     OrdonnanceRepository ordonnanceRepository;
     @Autowired
     FollowUpRepository followUpRepository;
+    @Autowired
+    DoctorRepository doctorRepository;
+
     @GetMapping("/ordonnance")
     public String presciption(Model out,
                               @RequestParam Long ordonnanceId){
@@ -35,6 +35,7 @@ public class DoctorController {
         out.addAttribute("prescriptions", prescriptionRepository.findAllByOrdonnanceId(ordonnanceId));
         return "ordonnance";
     }
+
     @PostMapping("/ordonnance")
     public String postForm(Model out,
                            @RequestParam String drug,
@@ -52,20 +53,44 @@ public class DoctorController {
         Prescription prescription = new Prescription(drug, takenDay, days, inter, comment, ordonnance);
         out.addAttribute("presciption", prescriptionRepository.save(prescription));
         if (creation == 1) {
-            return "redirect:/";
+            return "redirect:/dashboard/doctor?patientId=" + ordonnance.getPatient().getId() +
+                    "&ordonnanceId=" + ordonnanceId + "&doctorId=" + ordonnance.getDoctor().getId() ;
         }
         return "redirect:/ordonnance"+"?ordonnanceId="+ ordonnanceId;
     }
+
+    @GetMapping("/creationOrdonnance")
+    public String creationO(@RequestParam Long doctorId, @RequestParam Long patientId) {
+
+        Optional<Doctor> optionalDoctor =  doctorRepository.findById(doctorId);
+        Optional<Patient> optionalPatient = patientRepository.findById(patientId);
+        Ordonnance ordonnance = new Ordonnance();
+        if (optionalDoctor.isPresent() && optionalPatient.isPresent()) {
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            Date current = new Date();
+
+            ordonnance.setDate(sdf.format(current));
+            ordonnance.setDoctor(optionalDoctor.get());
+            ordonnance.setPatient(optionalPatient.get());
+            ordonnance = ordonnanceRepository.save(ordonnance);
+
+        }
+        return "redirect:/ordonnance?ordonnanceId=" + ordonnance.getId();
+    }
+
     /* changer direction page*/
     @GetMapping("/")
     @ResponseBody
     public String show() {
         return "hello";
     }
+
     @GetMapping("/dashboard/doctor")
     public String dashboardDorctor(Model out,
                                    @RequestParam Long patientId,
-                                   @RequestParam Long ordonnanceId) {
+                                   @RequestParam Long ordonnanceId,
+                                   @RequestParam Long doctorId) {
         Optional<Patient> optionalPatient = patientRepository.findById(patientId);
         if (optionalPatient.isPresent()) {
             Patient patient = optionalPatient.get();
@@ -84,6 +109,7 @@ public class DoctorController {
             prescriptionStatus.put(prescription, followUpStatus);
         }
         out.addAttribute("prescriptionStatus", prescriptionStatus);
+        out.addAttribute("doctorId", doctorId);
         return "dashboard_doctor";
     }
 }
