@@ -20,11 +20,12 @@ import java.util.stream.Collectors;
 @Controller
 public class PatientController {
 
+
     @Autowired
     OrderRepository orderRepository;
 
 
-    @GetMapping("/dashboard/Patient")
+    @GetMapping("/dashboard/patient")
     public String dashboardPatient() {
         return "dashboard_patient";
     }
@@ -75,6 +76,5 @@ public class PatientController {
 
         return "redirect:/medicament?med=" + med + "&" + "id=" + id;
     }
-
 
 }

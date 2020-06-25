@@ -1,0 +1,122 @@
+@import url('style.css');
+
+.body-dashboard{
+    background-color: #0596DE;
+
+}
+
+.header{
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+    margin: 1.5rem;
+}
+
+.header h1{
+    flex-basis: 95%;
+    text-align: center;
+    color: #EEF2F6;
+    font-family: Montserrat;
+    font-size: 24px;
+}
+
+#connect{
+    color: white;
+    font-size: 20px;
+    flex-basis: 5%;
+    text-align: center;
+    margin-right: .7rem;
+}
+
+#connect i {
+    width: 100%;
+}
+
+.drug_cards{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reminder{
+    color: white;
+    border-radius: .3rem .3rem 0 0;
+    background-color: #435f71;
+    width: auto;
+    height: 2rem;
+}
+.reminder p{
+    padding-top: .4rem;
+    margin-left: 1rem;
+}
+.drug{
+    width: 350px;
+    height: 190px;
+}
+
+.drug-header{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 28px;
+    margin-top: 1rem;
+    margin-right: 13rem;
+}
+
+.description {
+    height: 4rem;
+    margin-left: 1rem;
+}
+
+#button{
+    color: #0596DE;
+    background: white;
+    border-radius: 0 0 0 .3rem;
+    font-size: .9rem;
+}
+
+#button2{
+    color: #0596DE;
+    background: white;
+    border-radius: 0 0 .3rem 0;
+    font-size: .9rem;
+}
+.drug_cards{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.reminder{
+    color: white;
+    border-radius: .3rem .3rem 0 0;
+    background-color: #435f71;
+    width: auto;
+    height: 2rem;
+}
+.reminder p{
+    padding-top: .4rem;
+    margin-left: 1rem;
+}
+.drug{
+    width: 350px;
+    height: 190px;
+}
+
+.description{
+    height: 4rem;
+    margin-left: 1rem;
+}
+
+#button{
+    color: #0596DE;
+    background: white;
+    border-radius: 0 0 0 .3rem;
+}
+
+#button2{
+    color: #0596DE;
+    background: white;
+    border-radius: 0 0 .3rem 0;
+}
