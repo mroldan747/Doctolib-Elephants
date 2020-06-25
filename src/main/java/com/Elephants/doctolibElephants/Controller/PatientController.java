@@ -1,11 +1,17 @@
 package com.Elephants.doctolibElephants.Controller;
 
+
+import com.Elephants.doctolibElephants.repository.OrdonnanceRepository;
+import com.Elephants.doctolibElephants.repository.PatientRepository;
+
 import com.Elephants.doctolibElephants.entity.FollowUp;
 import com.Elephants.doctolibElephants.entity.Ordonnance;
 import com.Elephants.doctolibElephants.entity.Prescription;
+
 import com.Elephants.doctolibElephants.repository.FollowUpRepository;
-import com.Elephants.doctolibElephants.repository.OrderRepository;
+
 import com.Elephants.doctolibElephants.repository.PrescriptionRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,20 +30,22 @@ public class PatientController {
 
 
     @Autowired
-    OrderRepository orderRepository;
-    @Autowired
     PrescriptionRepository prescriptionRepository;
+
     @Autowired
     FollowUpRepository followUpRepository;
 
-    @GetMapping("/dashboard/patient")
-    public String dashboardPatient() {
-        return "dashboard_patient";
-    }
+    @Autowired
+    PatientRepository patientRepository;
+
+
+    @Autowired
+    OrdonnanceRepository ordonnanceRepository;
+
 
     @GetMapping("/medicament")
     public String medicament(Model model, @RequestParam Long med, @RequestParam Long id) {
-        Optional<Ordonnance> optionalOrdonnance = orderRepository.findByPatientId(id);
+        Optional<Ordonnance> optionalOrdonnance = ordonnanceRepository.findByPatientId(id);
         if (optionalOrdonnance.isPresent()) {
             Prescription prescription = optionalOrdonnance.get().getPrescriptions().stream()
                     .filter(item -> item.getId().equals(med))
@@ -71,7 +79,7 @@ public class PatientController {
 
     @PostMapping("/medicament")
     public String startHour(@RequestParam Long med, @RequestParam Long id, @RequestParam Integer hour) {
-        Optional<Ordonnance> optionalOrdonnance = orderRepository.findByPatientId(id);
+        Optional<Ordonnance> optionalOrdonnance = ordonnanceRepository.findByPatientId(id);
         if (optionalOrdonnance.isPresent()) {
             Prescription prescription = optionalOrdonnance.get().getPrescriptions().stream()
                     .filter(item -> item.getId().equals(med))
@@ -80,7 +88,7 @@ public class PatientController {
             prescriptionRepository.save(prescription);
 
             // Define next follow ups
-            Integer inter = prescription.getInterval();
+            Integer inter = prescription.getInter();
             Integer days = prescription.getDays();
             Integer takenPerDay = prescription.getTakenDay();
             for (int i = 1; i <= days; i++) {
@@ -102,4 +110,9 @@ public class PatientController {
         return "redirect:/medicament?med=" + med + "&" + "id=" + id;
     }
 
+    @GetMapping("/dashboard/patient")
+    public String showDrugList(Model out, @RequestParam Long id){
+        out.addAttribute("prescriptions", prescriptionRepository.findByPatientId(id));
+        return "dashboard_patient";
+    }
 }

@@ -33,7 +33,7 @@ public class Prescription {
 
     private Integer startHours;
 
-    private Date
+
 
     @NotNull
     @Column(nullable = false)
@@ -47,6 +47,15 @@ public class Prescription {
     private List<FollowUp> followUps = new ArrayList<>();
 
     public Prescription() {
+    }
+
+    public Prescription(String drug, Integer takenDay, Integer days, Integer inter, String comment, Ordonnance ordonnance) {
+        this.drug = drug;
+        this.takenDay = takenDay;
+        this.days = days;
+        this.inter = inter;
+        this.comment = comment;
+        this.ordonnance = ordonnance;
     }
 
     public Long getId() {
@@ -97,12 +106,12 @@ public class Prescription {
         this.startHours = startHours;
     }
 
-    public Integer getInterval() {
+    public Integer getInter() {
         return inter;
     }
 
-    public void setInterval(Integer interval) {
-        this.inter = interval;
+    public void setInterval(Integer inter) {
+        this.inter = inter;
     }
 
     public Ordonnance getOrdonnance() {
