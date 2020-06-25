@@ -1,8 +1,11 @@
 package com.Elephants.doctolibElephants.Controller;
 
+import com.Elephants.doctolibElephants.entity.FollowUp;
 import com.Elephants.doctolibElephants.entity.Ordonnance;
 import com.Elephants.doctolibElephants.entity.Patient;
 import com.Elephants.doctolibElephants.entity.Prescription;
+import com.Elephants.doctolibElephants.model.FollowUpStatus;
+import com.Elephants.doctolibElephants.repository.FollowUpRepository;
 import com.Elephants.doctolibElephants.repository.OrdonnanceRepository;
 import com.Elephants.doctolibElephants.repository.PatientRepository;
 import com.Elephants.doctolibElephants.repository.PrescriptionRepository;
@@ -11,8 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class DoctorController {
@@ -25,6 +27,9 @@ public class DoctorController {
 
     @Autowired
     OrdonnanceRepository ordonnanceRepository;
+
+    @Autowired
+    FollowUpRepository followUpRepository;
 
 
     @GetMapping("/ordonnance")
@@ -76,9 +81,10 @@ public class DoctorController {
         return "hello";
     }
 
-    /*@GetMapping("/dashboard/doctor")
-      public Patient dashboardDoctor(Model out,
-                                    @RequestParam Long patientId) {
+    @GetMapping("/dashboard/doctor")
+    public String dashboardDorctor(Model out,
+                                   @RequestParam Long patientId,
+                                    @RequestParam Long ordonnanceId) {
 
         Optional<Patient> optionalPatient = patientRepository.findById(patientId);
         if (optionalPatient.isPresent()) {
@@ -86,8 +92,22 @@ public class DoctorController {
             out.addAttribute("patient", patient);
         }
 
-        return ;
-    }*/
+        List<Prescription> prescriptions = prescriptionRepository.findAllByOrdonnanceId(ordonnanceId);
+        Map<Prescription, FollowUpStatus> prescriptionStatus = new LinkedHashMap<>();
+        for (Prescription prescription : prescriptions) {
+            FollowUpStatus followUpStatus = new FollowUpStatus();
+            followUpStatus.setGreen(followUpRepository.totalStatus1(prescription.getId()));
+            followUpStatus.setOrange(followUpRepository.totalStatus2(prescription.getId()));
+            followUpStatus.setRed(followUpRepository.totalStatus3(prescription.getId()));
+            followUpStatus.setTotal(followUpRepository.totalFollowUp(prescription.getId()));
+            followUpStatus.setTotalPris(followUpStatus.getGreen()+followUpStatus.getOrange()+followUpStatus.getRed());
+            followUpStatus.setRestePrendre((prescription.getDays()*prescription.getTakenDay())-followUpStatus.getTotalPris());
+            prescriptionStatus.put(prescription, followUpStatus);
+        }
+        out.addAttribute("prescriptionStatus", prescriptionStatus);
 
+        return "dashboard_doctor";
+
+    }
 
 }
