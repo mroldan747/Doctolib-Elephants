@@ -4,25 +4,29 @@
     <meta charset="UTF-8">
     <title>Dashboard Patient</title>
     <th:block th:include="fragments/head.html :: head"> </th:block>
-    <link rel="stylesheet" th:href="@{/dashboard_patient.css}">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+    <link rel="stylesheet" th:href="@{/dashboard_patient.css}">
 </head>
 <body class="body-dashboard">
 <header class="header">
     <h1>LibreDoctor</h1>
     <a id="connect"><i class="fas fa-user"></i></a>
 </header>
-<div class="drug_cards" th:each="prescription : ${prescriptions}">
+<div class="drug_cards" th:each="entry : ${prescriptions}" th:with="prescription = ${entry.key}, followUp = ${entry.value}">
     <div class="ui card drug" >
     <div class="card">
         <div class="content content">
-            <div class="reminder"><p><i class="fas fa-clock"></i> 9:00</p></div>
-            <div class="header drug-header" id="drug-header" th:text="${prescription.drug}">Dafalgan </div>
+            <div class="reminder"><p><i class="fas fa-clock"></i> <span th:if="${followUp.status ne 5}" th:text="|${followUp.hour}:00|"></span><span th:if="${followUp.status eq 5}">Click sur le medicament pour commencer</span></p></div>
+            <a th:href="@{'/medicament?med=' + ${prescription.id} + '&id=' + ${idPatient} }" class="header drug-header" id="drug-header" >
+                <h2 th:text="${prescription.drug}">Dafalgan</h2>
+                <i class="fas fa-chevron-right"></i>
+            </a>
             <div class="ui divider"></div>
             <div class="description" th:text="${prescription.comment}">Commentaires</div>
             <div class="ui two buttons buttons">
-                <button class="ui bottom attached button" id="button">PRIS A L'HEURE</button>
-                <button class="ui bottom attached button" id="button2">PRIS EN RETARD</button>
+                <a th:href="@{'/prise?prise=1&id=' + ${followUp.id} + '&idPatient=' + ${idPatient}}" class="ui bottom attached button" id="button">PRIS A L'HEURE</a>
+                <a th:href="@{'/prise?prise=2&id=' + ${followUp.id} + '&idPatient=' + ${idPatient}}" class="ui bottom attached button" id="button2">PRIS EN RETARD</a>
             </div>
         </div>
     </div>

@@ -7,8 +7,8 @@
 
 .header{
     display: flex;
-    justify-items: center;
-    justify-content: center;
+    align-items:start;
+    justify-content: space-between;
     margin: 1.5rem;
 }
 
@@ -33,9 +33,11 @@
 }
 
 .drug_cards{
+
     display: flex;
     justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    align-items:center;
 }
 
 .reminder{
@@ -52,16 +54,21 @@
 .drug{
     width: 350px;
     height: 190px;
+
 }
 
 .drug-header{
     font-family: Roboto;
-    font-style: normal;
+    color: #435f71;
     font-weight: normal;
     font-size: 24px;
     line-height: 28px;
-    margin-top: 1rem;
-    margin-right: 13rem;
+    margin-top: 1.5rem;
+    /*! margin-right: 13rem; */
+}
+
+.drug-header h2 {
+    margin:0;
 }
 
 .description {
@@ -82,12 +89,11 @@
     border-radius: 0 0 .3rem 0;
     font-size: .9rem;
 }
-.drug_cards{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-}
 
+.ui.card {
+    box-shadow: none;
+    margin-bottom: 3rem;
+}
 .reminder{
     color: white;
     border-radius: .3rem .3rem 0 0;

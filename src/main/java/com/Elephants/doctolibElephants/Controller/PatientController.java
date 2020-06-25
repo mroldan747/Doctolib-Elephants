@@ -3,6 +3,7 @@ package com.Elephants.doctolibElephants.Controller;
 
 import com.Elephants.doctolibElephants.entity.FollowUp;
 import com.Elephants.doctolibElephants.entity.Ordonnance;
+import com.Elephants.doctolibElephants.entity.Patient;
 import com.Elephants.doctolibElephants.entity.Prescription;
 import com.Elephants.doctolibElephants.repository.FollowUpRepository;
 import com.Elephants.doctolibElephants.repository.OrdonnanceRepository;
@@ -38,11 +39,9 @@ public class PatientController {
 
     @GetMapping("/medicament")
     public String medicament(Model model, @RequestParam Long med, @RequestParam Long id) {
-        Optional<Ordonnance> optionalOrdonnance = ordonnanceRepository.findByPatientId(id);
-        if (optionalOrdonnance.isPresent()) {
-            Prescription prescription = optionalOrdonnance.get().getPrescriptions().stream()
-                    .filter(item -> item.getId().equals(med))
-                    .collect(Collectors.toList()).get(0);
+        Optional<Prescription> optionalPrescription = prescriptionRepository.findById(med);
+        if (optionalPrescription.isPresent()) {
+            Prescription prescription = optionalPrescription.get();
 
             if (prescription.getStartHours() == null) {
                 model.addAttribute("isStart", false);
@@ -54,7 +53,6 @@ public class PatientController {
                 int startDay = startDate.get(Calendar.DAY_OF_YEAR);
                 List<FollowUp> followUps = prescription.getFollowUps().stream()
                         .filter(item -> {
-
                             if (startDay - day == 0) {
                                 return item.getDay().equals(1);
                             }
@@ -122,7 +120,54 @@ public class PatientController {
 
     @GetMapping("/dashboard/patient")
     public String showDrugList(Model out, @RequestParam Long id) {
-        out.addAttribute("prescriptions", prescriptionRepository.findByPatientId(id));
+        List<Prescription> prescriptionsList = prescriptionRepository.findByPatientId(id);
+        Calendar now = Calendar.getInstance();
+        int day = now.get(Calendar.DAY_OF_YEAR);
+        int hour = now.get(Calendar.HOUR_OF_DAY);
+        Map<Prescription, FollowUp> prescriptions = new HashMap<>();
+        for (Prescription prescription : prescriptionsList) {
+            if (prescription.getStartHours() == null){
+                FollowUp startFollowUp =  new FollowUp();
+                startFollowUp.setStatus(5);
+                prescriptions.put(prescription,startFollowUp);
+            } else {
+                int startDay = prescription.getStartDate().get(Calendar.DAY_OF_YEAR);
+                Integer followUpDay = day - startDay == 0 ? 1 : day - startDay;
+                List<FollowUp> followUp = followUpRepository.findAllByPrescriptionIdAndDay(prescription.getId(), followUpDay);
+                List<FollowUp> followUpBefore = followUp.stream()
+                        .filter(item -> item.getHour() >= hour - 1 && item.getHour() <= hour &&
+                                !item.getStatus().equals(1) && !item.getStatus().equals(2))
+                        .collect(Collectors.toList());
+                FollowUp followUpAfter = new FollowUp();
+                int diff = 12;
+                for (FollowUp followUp1 : followUp) {
+                    if (followUp1.getHour() - hour > 0 && followUp1.getHour() - hour < diff
+                            && !followUp1.getStatus().equals(1) && !followUp1.getStatus().equals(2)) {
+                        diff = followUp1.getHour() - hour;
+                        followUpAfter = followUp1;
+                    }
+                }
+                if (followUpBefore.size() != 0) {
+                    prescriptions.put(prescription, followUpBefore.get(0));
+                } else if (followUpAfter.getId() != null){
+                    prescriptions.put(prescription, followUpAfter);
+                }
+            }
+        }
+        out.addAttribute("prescriptions", prescriptions);
+        out.addAttribute("idPatient", id);
         return "dashboard_patient";
+    }
+
+    @GetMapping("/prise")
+    public String prise (@RequestParam Integer prise, @RequestParam Long id, @RequestParam Long idPatient) {
+        Optional<FollowUp> optionalFollowUp = followUpRepository.findById(id);
+        if (optionalFollowUp.isPresent()) {
+            FollowUp followUp = optionalFollowUp.get();
+            followUp.setStatus(prise);
+            followUpRepository.save(followUp);
+        }
+
+        return "redirect:/dashboard/patient" + "?id=" + idPatient;
     }
 }
