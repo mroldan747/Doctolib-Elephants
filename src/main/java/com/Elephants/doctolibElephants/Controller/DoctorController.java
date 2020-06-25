@@ -18,13 +18,13 @@ import java.util.Optional;
 public class DoctorController {
 
     @Autowired
-    private PrescriptionRepository prescriptionRepository;
+    PrescriptionRepository prescriptionRepository;
 
     @Autowired
-    private PatientRepository patientRepository;
+    PatientRepository patientRepository;
 
     @Autowired
-    private OrdonnanceRepository ordonnanceRepository;
+    OrdonnanceRepository ordonnanceRepository;
 
 
     @GetMapping("/ordonnance")
@@ -76,10 +76,18 @@ public class DoctorController {
         return "hello";
     }
 
+    /*@GetMapping("/dashboard/doctor")
+      public Patient dashboardDoctor(Model out,
+                                    @RequestParam Long patientId) {
 
-    @GetMapping("/dashboard/doctor")
-    public String dashboardDoctor() {
+        Optional<Patient> optionalPatient = patientRepository.findById(patientId);
+        if (optionalPatient.isPresent()) {
+            Patient patient = optionalPatient.get();
+            out.addAttribute("patient", patient);
+        }
 
-        return "dashboard_doctor";
-    }
+        return ;
+    }*/
+
+
 }

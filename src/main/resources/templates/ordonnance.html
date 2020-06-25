@@ -13,7 +13,7 @@
 </body>
 <div class="formOrdonnanceBlock">
     <div class="formOrdonnance">
-        <h2>Name</h2>
+        <h2 th:text="|${ordonnance.getPatient().getLastName()} ${ordonnance.getPatient().getFirstName()}|">Name</h2>
         <div class="prescription" th:each="prescription : ${prescriptions}">
             <div class="drug">
                 <p th:text="${prescription.drug}"></p>
