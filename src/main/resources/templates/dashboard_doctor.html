@@ -35,7 +35,7 @@
                         </div>
                         <p th:text="|N°SS : ${patient.getSocialSecurity()}|">N°SS: 0909909999</p>
                         <p th:text="${patient.getAddress()}" class="address">9 rue des développeurs</p>
-                        <p th:text="${patient.getZipCode()}" class="city"><span>44000</span> <span>Nantes</span></p>
+                        <p th:text="${patient.getZipCode()}" class="city"><span>44000</span><span th:text="${patient.getCity()}">Nantes</span></p>
                     </div>
                 </div>
             </div>
