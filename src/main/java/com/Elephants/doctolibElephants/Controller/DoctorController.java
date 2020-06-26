@@ -1,14 +1,22 @@
 package com.Elephants.doctolibElephants.Controller;
-import com.Elephants.doctolibElephants.entity.*;
+
+import com.Elephants.doctolibElephants.entity.Doctor;
+import com.Elephants.doctolibElephants.entity.Ordonnance;
+import com.Elephants.doctolibElephants.entity.Patient;
+import com.Elephants.doctolibElephants.entity.Prescription;
 import com.Elephants.doctolibElephants.model.FollowUpStatus;
 import com.Elephants.doctolibElephants.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+
 @Controller
 public class DoctorController {
     @Autowired
@@ -24,7 +32,7 @@ public class DoctorController {
 
     @GetMapping("/ordonnance")
     public String presciption(Model out,
-                              @RequestParam Long ordonnanceId){
+                              @RequestParam Long ordonnanceId) {
         Optional<Ordonnance> optionalOrdonnance = ordonnanceRepository.findById(ordonnanceId);
         if (optionalOrdonnance.isPresent()) {
             Ordonnance ordonnance = optionalOrdonnance.get();
@@ -53,15 +61,15 @@ public class DoctorController {
         out.addAttribute("presciption", prescriptionRepository.save(prescription));
         if (creation == 1) {
             return "redirect:/dashboard/doctor?patientId=" + ordonnance.getPatient().getId() +
-                    "&ordonnanceId=" + ordonnanceId + "&doctorId=" + ordonnance.getDoctor().getId() ;
+                    "&ordonnanceId=" + ordonnanceId + "&doctorId=" + ordonnance.getDoctor().getId();
         }
-        return "redirect:/ordonnance"+"?ordonnanceId="+ ordonnanceId;
+        return "redirect:/ordonnance" + "?ordonnanceId=" + ordonnanceId;
     }
 
     @GetMapping("/creationOrdonnance")
     public String creationO(@RequestParam Long doctorId, @RequestParam Long patientId) {
 
-        Optional<Doctor> optionalDoctor =  doctorRepository.findById(doctorId);
+        Optional<Doctor> optionalDoctor = doctorRepository.findById(doctorId);
         Optional<Patient> optionalPatient = patientRepository.findById(patientId);
         Ordonnance ordonnance = new Ordonnance();
         if (optionalDoctor.isPresent() && optionalPatient.isPresent()) {
@@ -103,8 +111,8 @@ public class DoctorController {
             followUpStatus.setOrange(followUpRepository.totalStatus2(prescription.getId()));
             followUpStatus.setRed(followUpRepository.totalStatus3(prescription.getId()));
             followUpStatus.setTotal(followUpRepository.totalFollowUp(prescription.getId()));
-            followUpStatus.setTotalPris(followUpStatus.getGreen()+followUpStatus.getOrange()+followUpStatus.getRed());
-            followUpStatus.setRestePrendre((prescription.getDays()*prescription.getTakenDay())-followUpStatus.getTotalPris());
+            followUpStatus.setTotalPris(followUpStatus.getGreen() + followUpStatus.getOrange() + followUpStatus.getRed());
+            followUpStatus.setRestePrendre((prescription.getDays() * prescription.getTakenDay()) - followUpStatus.getTotalPris());
             prescriptionStatus.put(prescription, followUpStatus);
         }
         out.addAttribute("prescriptionStatus", prescriptionStatus);

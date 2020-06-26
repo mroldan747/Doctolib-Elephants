@@ -1,7 +1,6 @@
 package com.Elephants.doctolibElephants.Controller;
+
 import com.Elephants.doctolibElephants.entity.FollowUp;
-import com.Elephants.doctolibElephants.entity.Ordonnance;
-import com.Elephants.doctolibElephants.entity.Patient;
 import com.Elephants.doctolibElephants.entity.Prescription;
 import com.Elephants.doctolibElephants.repository.FollowUpRepository;
 import com.Elephants.doctolibElephants.repository.OrdonnanceRepository;
@@ -13,8 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.*;
 import java.util.stream.Collectors;
+
 @Controller
 public class PatientController {
     @Autowired
@@ -25,6 +26,7 @@ public class PatientController {
     PatientRepository patientRepository;
     @Autowired
     OrdonnanceRepository ordonnanceRepository;
+
     @GetMapping("/medicament")
     public String medicament(Model model, @RequestParam Long med, @RequestParam Long id) {
         Optional<Prescription> optionalPrescription = prescriptionRepository.findById(med);
@@ -67,6 +69,7 @@ public class PatientController {
         model.addAttribute("id", id);
         return "medicament";
     }
+
     @PostMapping("/medicament")
     public String startHour(@RequestParam Long med, @RequestParam Long id, @RequestParam Integer hour) {
         Optional<Prescription> optionalPrescription = prescriptionRepository.findById(med);
@@ -97,6 +100,7 @@ public class PatientController {
         }
         return "redirect:/medicament?med=" + med + "&" + "id=" + id;
     }
+
     @GetMapping("/dashboard/patient")
     public String showDrugList(Model out, @RequestParam Long id) {
         List<Prescription> prescriptionsList = prescriptionRepository.findByPatientId(id);
@@ -105,10 +109,10 @@ public class PatientController {
         int hour = now.get(Calendar.HOUR_OF_DAY);
         Map<Prescription, FollowUp> prescriptions = new HashMap<>();
         for (Prescription prescription : prescriptionsList) {
-            if (prescription.getStartHours() == null){
-                FollowUp startFollowUp =  new FollowUp();
+            if (prescription.getStartHours() == null) {
+                FollowUp startFollowUp = new FollowUp();
                 startFollowUp.setStatus(5);
-                prescriptions.put(prescription,startFollowUp);
+                prescriptions.put(prescription, startFollowUp);
             } else {
                 int startDay = prescription.getStartDate().get(Calendar.DAY_OF_YEAR);
                 Integer followUpDay = day - startDay == 0 ? 1 : day - startDay;
@@ -128,7 +132,7 @@ public class PatientController {
                 }
                 if (followUpBefore.size() != 0) {
                     prescriptions.put(prescription, followUpBefore.get(0));
-                } else if (followUpAfter.getId() != null){
+                } else if (followUpAfter.getId() != null) {
                     prescriptions.put(prescription, followUpAfter);
                 }
             }
@@ -137,8 +141,9 @@ public class PatientController {
         out.addAttribute("idPatient", id);
         return "dashboard_patient";
     }
+
     @GetMapping("/prise")
-    public String prise (@RequestParam Integer prise, @RequestParam Long id, @RequestParam Long idPatient) {
+    public String prise(@RequestParam Integer prise, @RequestParam Long id, @RequestParam Long idPatient) {
         Optional<FollowUp> optionalFollowUp = followUpRepository.findById(id);
         if (optionalFollowUp.isPresent()) {
             FollowUp followUp = optionalFollowUp.get();
@@ -147,6 +152,7 @@ public class PatientController {
         }
         return "redirect:/dashboard/patient" + "?id=" + idPatient;
     }
+
     @GetMapping("/patient")
     public String userMedicament(Model out,
                                  @RequestParam Long id) {
