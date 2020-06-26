@@ -45,3 +45,7 @@ header h1{
     font-family: var(--font-titles);
     font-weight: 500;
 }
+
+header a {
+    text-decoration: none;
+}
