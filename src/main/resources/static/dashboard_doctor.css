@@ -1,9 +1,7 @@
 @import url('style.css');
-
 .body-dashboard-doctor{
     background-color: #EEF2F6;
 }
-
 .header .grid-container{
     display: grid;
     grid-template-columns: 1.4fr 0.6fr;
@@ -14,7 +12,6 @@
     margin: 0;
     height: 4rem;
 }
-
 .doctorlibre {
     grid-area: doctorlibre;
     text-align: left;
@@ -25,7 +22,6 @@
     font-family: var(--font-titles);
     font-weight: 500;
 }
-
 .patientlist { grid-area: patientlist;
     text-align: right;
     margin-right: 5rem;
@@ -43,7 +39,6 @@
     font-family: var(--font-titles);
     font-size: 1.2rem;
 }
-
 .section1 .grid-container{
     display: grid;
     grid-template-columns: 1.7fr 0.7fr 0.6fr;
@@ -55,38 +50,31 @@
     margin: 2rem;
     margin-right: 5rem;
     padding-top: 2rem;}
-
 .ordonnance { grid-area: ordonnance;
     margin: 2rem;
     padding-left: 15rem;
     padding-top: 2rem;}
-
 .information-cards { grid-area: information-cards;
     margin: 2rem;}
-
 #table{
     width: 96%;
     margin: 2rem;
 }
-
 .phone{
     display: flex;
     justify-content: space-between;
     margin-right: 1rem;
     margin-top: 0.5rem;
 }
-
 .content p {
     margin-left: 0.7rem;
     color: var(--color-dark-blue);
     font-size: 1.1rem;
     margin-bottom: 0.5rem;
 }
-
 .ui.table thead th{
     background-color: #fff;
 }
-
 .ui.basic.button, .ui.basic.buttons .button{
     color: #0596DE !important;
     background-color: white !important;
@@ -94,50 +82,41 @@
     box-shadow: none;
     font-size: 1.1rem;
 }
-
 .ui.basic.button:hover{
     box-shadow: none;
     color: #0596DE !important;
 }
-
 #button-ordonnance {
     width: 120%;
 }
 #button-ordonnance:hover{
     color: #0596DE !important;
 }
-
 .ui.primary.button{
     background-color: #0596DE;
     font-size: 1.1rem;
 }
-
 .ui.primary.button:hover{
     background-color: #0596DE !important;
 }
-
 .ui.card{
     box-shadow: none;
     border: 1px solid #0596DE !important;
     border-radius: 12px;
 }
-
 .ui.table{
     border: none;
     border-radius: 1.25rem 1.25rem;
     color: var(--color-dark-blue)
 }
-
 .ui.table thead tr:first-child > th:only-child{
     border-radius: 1.25rem 1.25rem 0 0;
 }
-
 .ui.table td {
     padding: 1.5rem 1.5rem;
     font-size: 1.2rem;
     font-family: var(--font-text);
 }
-
 .ui.table thead th {
     color: var(--color-dark-blue);
     font-family: var(--font-titles);
@@ -145,11 +124,37 @@
     font-weight: 600;
     padding: 1.5rem 1.5rem;
 }
-
 i.red.icon {
     color: red !important;;
 }
-
 i.orange.icon {
     color: orange !important;
+}
+.section1 .grid-container .followup a{
+    width: 18rem;
+}
+#button-ordonnance {
+    width: 18rem;
+}
+@media only screen and (max-width: 768px) {
+    .section1 .grid-container {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+    .section1 .grid-container .followup, .ordonnance {
+        margin: 0;
+        padding: 0;
+        margin-bottom: 2rem;
+    }
+    .section1 .grid-container .followup a{
+        width: 18rem;
+    }
+    #button-ordonnance {
+        width: 18rem;
+    }
+    #table {
+        margin: 0;
+        margin-left: 1rem;
+    }
 }
