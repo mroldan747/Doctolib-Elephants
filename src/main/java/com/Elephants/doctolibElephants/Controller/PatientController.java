@@ -1,6 +1,4 @@
 package com.Elephants.doctolibElephants.Controller;
-
-
 import com.Elephants.doctolibElephants.entity.FollowUp;
 import com.Elephants.doctolibElephants.entity.Ordonnance;
 import com.Elephants.doctolibElephants.entity.Patient;
@@ -15,34 +13,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.*;
 import java.util.stream.Collectors;
-
 @Controller
 public class PatientController {
-
-
     @Autowired
     PrescriptionRepository prescriptionRepository;
-
     @Autowired
     FollowUpRepository followUpRepository;
-
     @Autowired
     PatientRepository patientRepository;
-
-
     @Autowired
     OrdonnanceRepository ordonnanceRepository;
-
-
     @GetMapping("/medicament")
     public String medicament(Model model, @RequestParam Long med, @RequestParam Long id) {
         Optional<Prescription> optionalPrescription = prescriptionRepository.findById(med);
         if (optionalPrescription.isPresent()) {
             Prescription prescription = optionalPrescription.get();
-
             if (prescription.getStartHours() == null) {
                 model.addAttribute("isStart", false);
             } else {
@@ -73,7 +60,6 @@ public class PatientController {
                 }
                 model.addAttribute("followUps", followUpsMap);
             }
-
         } else {
             model.addAttribute("isStart", false);
         }
@@ -81,7 +67,6 @@ public class PatientController {
         model.addAttribute("id", id);
         return "medicament";
     }
-
     @PostMapping("/medicament")
     public String startHour(@RequestParam Long med, @RequestParam Long id, @RequestParam Integer hour) {
         Optional<Prescription> optionalPrescription = prescriptionRepository.findById(med);
@@ -90,9 +75,7 @@ public class PatientController {
             prescription.setStartHours(hour);
             Calendar current = Calendar.getInstance();
             prescription.setStartDate(current);
-
             prescriptionRepository.save(prescription);
-
             // Define next follow ups
             Integer inter = prescription.getInter();
             Integer days = prescription.getDays();
@@ -112,10 +95,8 @@ public class PatientController {
                 }
             }
         }
-
         return "redirect:/medicament?med=" + med + "&" + "id=" + id;
     }
-
     @GetMapping("/dashboard/patient")
     public String showDrugList(Model out, @RequestParam Long id) {
         List<Prescription> prescriptionsList = prescriptionRepository.findByPatientId(id);
@@ -156,7 +137,6 @@ public class PatientController {
         out.addAttribute("idPatient", id);
         return "dashboard_patient";
     }
-
     @GetMapping("/prise")
     public String prise (@RequestParam Integer prise, @RequestParam Long id, @RequestParam Long idPatient) {
         Optional<FollowUp> optionalFollowUp = followUpRepository.findById(id);
@@ -165,27 +145,14 @@ public class PatientController {
             followUp.setStatus(prise);
             followUpRepository.save(followUp);
         }
-
         return "redirect:/dashboard/patient" + "?id=" + idPatient;
     }
-
     @GetMapping("/patient")
     public String userMedicament(Model out,
-                                 @RequestParam Long id,
-                                 @RequestParam Long ordonnanceId) {
-        List<Ordonnance> ordonnances = ordonnanceRepository.findByPatientId(id);
-
-        Optional<Ordonnance> optionalOrdonnance = ordonnanceRepository.findById(ordonnanceId);
-        if (optionalOrdonnance.isPresent()) {
-            Ordonnance ordonnance = optionalOrdonnance.get();
-            out.addAttribute("ordonnance", ordonnance);
-            List<Prescription> prescriptions = ordonnance.getPrescriptions();
-            out.addAttribute("prescriptions", prescriptions);
-
-        }
-
+                                 @RequestParam Long id) {
+        List<Prescription> prescriptions = prescriptionRepository.findByPatientId(id);
+        out.addAttribute("prescriptions", prescriptions);
+        out.addAttribute("idPatient", id);
         return "user_medicaments";
     }
-
-
 }
