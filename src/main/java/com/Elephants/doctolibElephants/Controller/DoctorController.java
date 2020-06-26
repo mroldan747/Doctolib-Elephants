@@ -2,7 +2,6 @@ package com.Elephants.doctolibElephants.Controller;
 import com.Elephants.doctolibElephants.entity.*;
 import com.Elephants.doctolibElephants.model.FollowUpStatus;
 import com.Elephants.doctolibElephants.repository.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

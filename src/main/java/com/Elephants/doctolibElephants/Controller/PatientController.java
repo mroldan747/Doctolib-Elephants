@@ -170,8 +170,22 @@ public class PatientController {
     }
 
     @GetMapping("/patient")
-    public String userMedicament(@RequestParam Long id) {
+    public String userMedicament(Model out,
+                                 @RequestParam Long id,
+                                 @RequestParam Long ordonnanceId) {
         List<Ordonnance> ordonnances = ordonnanceRepository.findByPatientId(id);
+
+        Optional<Ordonnance> optionalOrdonnance = ordonnanceRepository.findById(ordonnanceId);
+        if (optionalOrdonnance.isPresent()) {
+            Ordonnance ordonnance = optionalOrdonnance.get();
+            out.addAttribute("ordonnance", ordonnance);
+            List<Prescription> prescriptions = ordonnance.getPrescriptions();
+            out.addAttribute("prescriptions", prescriptions);
+
+        }
+
         return "user_medicaments";
     }
+
+
 }
