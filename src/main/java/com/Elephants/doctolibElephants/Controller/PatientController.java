@@ -32,6 +32,7 @@ public class PatientController {
         Optional<Prescription> optionalPrescription = prescriptionRepository.findById(med);
         if (optionalPrescription.isPresent()) {
             Prescription prescription = optionalPrescription.get();
+            model.addAttribute("prescription", prescription);
             if (prescription.getStartHours() == null) {
                 model.addAttribute("isStart", false);
             } else {
@@ -65,6 +66,7 @@ public class PatientController {
         } else {
             model.addAttribute("isStart", false);
         }
+
         model.addAttribute("med", med);
         model.addAttribute("id", id);
         return "medicament";

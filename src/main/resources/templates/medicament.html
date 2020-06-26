@@ -9,7 +9,7 @@
 <body>
 <header class="medicament-header">
     <a th:href="@{/dashboard/patient(id=${id})}"><i class="fas fa-chevron-left"></i></a>
-    <h2>Dafalgan</h2>
+    <h2 th:text="${prescription.drug}">Dafalgan</h2>
 </header>
 <main class="medicament-main">
     <div class="start-hour" th:if="${not isStart}">
